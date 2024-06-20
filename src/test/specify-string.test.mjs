@@ -69,6 +69,10 @@ describe('validateString', () => {
   test('will pass single argument to auxiliary validators', () =>
     expect(validateString({ spec : { isEmail : { allow_display_name : true } }, validators, value : 'Foo <foo@bar.com>' })).toBe(true))
 
+  test('will convert auxiliary validator failure results to a string description', () =>
+    expect(validateString({ spec : { isEmail : undefined }, validators, value : 'foo' }))
+      .toBe("The value 'foo' failed the 'isEmail' validation."))
+
   test('will pass multiple arguments to the auxiliary validators', () => {
     let arg1, arg2, arg3
     validateString({ spec : { argTest : ['foo', 'bar'] }, validators : { argTest : (a, b, c) => { arg1 = a; arg2 = b; arg3 = c; return true } }, value : 'baz' })
