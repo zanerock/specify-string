@@ -4,6 +4,13 @@
 
 A simple string validation library that can be easily extended with other libraries.
 
+- [Installation](#installation)
+- [Usage](#usage)
+- [API reference](#api-reference)
+- [Validation spec](#validation-spec)
+- [Core validations](#core-validations)
+- [Extending validations](#extending-validations)
+
 ## Installation
 
 ```
@@ -33,7 +40,7 @@ const result = validateString({
 // email = 'invalid@email@acme.com' would return 'false' because that's what 'isEmail' returns.
 ```
 
-## API Reference
+## API reference
 
 ### `validateString({ skipTypeCheck, spec, validators, value })`
 
@@ -43,7 +50,10 @@ __Parameters__:
 - `validators`: An object whose keys are validation names and values are validation functions. See [extending validations](#extending-validations) for more info.
 - `value`: A string or array of strings to validate against the `spec`.
 
-This function validates the `value` against the `spec`, which may make reference to built-in validations or validations defined on the optional `validators` object. A value of `true` means validation passed and any other return value indicates a failed validation. Validation stops at the first failure. Core validations will return a descriptive string on failure. The return value of validations defined on the `validators` extension parameter are defined by their implementation.
+This function validates the `value` against the `spec`, which may make reference to built-in validations or validations defined on the optional `validators` object. A value of `true` means validation passed and any other return value indicates a failed validation. Validation stops at the first failure. Core validations return a descriptive string. `validateString` will return any string returned by a third-party validator. If the validator returns a non-string, non-true result, then `validateString will return to a string that reflects the value that failed and the name of the failing validation. E.g., "The value 'foo' failed the 'isEmail' validation."
+
+
+The return value of validations defined on the `validators` extension parameter are defined by their implementation.
 
 ### `validateStringSpec({ spec, validators })`
 
@@ -70,7 +80,7 @@ Creates a re-usable `Validator` instance.
 __Parameters__:
 - `value`: A string or array of strings to validate against the `spec`.
 
-Validates the `value` against the `spec` used to create the `Validator` instance.
+Validates the `value` against the `spec` used to create the `Validator` instance. Behaves like the [`validateString()` function](#validatestring-skiptypecheck-spec-validators-value-) with `spec` and `validators` determined by the `Validator` constructor.
 
 
 ## Validation spec
@@ -119,8 +129,8 @@ String validators are run against the single string `value` or, if `value` is an
 
 ## Extending validations
 
-The `validateString` function or `Validator` constructor take an optional `validators` parameter. This is an object whose keys are validation names and values are validation functions.
+The `validateString` function and `Validator` constructor take an optional `validators` parameter. This is an object whose keys are validation names and values are validation functions.
 
 A `validators` object can be manually built, like in the [usage example](#usage), directly use compatible objects such as `import validators from 'validator'`, or make use of a star import `import * as validators from 'some-validation-package'` depending on the nature of the validations.
 
-A validation function must return `true` if a string is validated. Any other result should be treated as indicating the string is invalid according to that validator. It is recommended to return a string, as the core validators do, that provides an explanation for why the string failed to validate.
+A validation function must return `true` if a string is validated. Any other result will be treated as a failure. If the result is a string, it's assumed to be describe the failure and is returned by `validateString`. If the validator returns a non-string value, `validateString` will return a string that reflects the value that failed and the name of the failing validation. E.g., "The value 'foo' failed the 'isEmail' validation."
