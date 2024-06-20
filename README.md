@@ -17,7 +17,7 @@ import isEmail from 'validator/es/lib/isEmail'
 import { validateString } from 'specify-string'
 
 const emailSpec = {
-  'match-re': /@acme.com/, // a core validator
+  'match-re': /@acme.com/, // a core validation
   isEmail: undefined // validation from the validator package 
 }
 
@@ -28,6 +28,9 @@ const result = validateString({
   validators : { isEmail }, // optional validation extensions
   value      : email
 })
+// returns true
+// email = 'john@foo.com' would return explaining the string must match the RE
+// email = 'invalid@email@acme.com' would return 'false' because that's what 'isEmail' returns.
 ```
 
 ## API Reference
@@ -40,7 +43,7 @@ __Parameters__:
 - `validators`: An object whose keys are validation names and values are validation functions. See [extending validations](#extending-validations) for more info.
 - `value`: A string or array of strings to validate against the `spec`.
 
-This function validates the `value` against the `spec`, which may make reference to built-in validations or validations defined on the `validators` object. A value of `true` means validation passed and any other return value indicates a failed validation. Validation stops at the first failure. Core validations will return a descriptive string on failure. The return value of validations defined on the `validators` extension parameter are defined by the implementation.
+This function validates the `value` against the `spec`, which may make reference to built-in validations or validations defined on the optional `validators` object. A value of `true` means validation passed and any other return value indicates a failed validation. Validation stops at the first failure. Core validations will return a descriptive string on failure. The return value of validations defined on the `validators` extension parameter are defined by their implementation.
 
 ### `validateStringSpec({ spec, validators })`
 
@@ -54,7 +57,7 @@ Verifies that the validations referenced in the [validation spec](#validation-sp
 
 An alternate method of validation that creates a re-usable `Validator` object which can then be used to apply the same validation spec multiple times.
 
-#### Constructor
+#### `new Validator({ spec, validators })`
 
 __Parameters__:
 - `spec`: The validation spec. See [validation spec](#validation-spec) and [core validations](#core-validations) for details.
@@ -62,7 +65,7 @@ __Parameters__:
 
 Creates a re-usable `Validator` instance.
 
-#### `validateString(value)`
+#### `Validator.validateString(value)`
 
 __Parameters__:
 - `value`: A string or array of strings to validate against the `spec`.
@@ -72,7 +75,7 @@ Validates the `value` against the `spec` used to create the `Validator` instance
 
 ## Validation spec
 
-The validation spec consists of an object whose keys are references are references to a validator function. The values are arguments to pass to the validation spec.
+The validation spec consists of an object whose keys are references to a validator function. The values are arguments to pass to the validation spec and may be undefined.
 
 Specifically, given a validation spec like:
 ```javascript
@@ -116,8 +119,8 @@ String validators are run against the single string `value` or, if `value` is an
 
 ## Extending validations
 
-The `validateString` function or `Validator` object take an optional `validators` parameter. This is an object whose keys are validation names and values are validation functions.
+The `validateString` function or `Validator` constructor take an optional `validators` parameter. This is an object whose keys are validation names and values are validation functions.
 
 A `validators` object can be manually built, like in the [usage example](#usage), directly use compatible objects such as `import validators from 'validator'`, or make use of a star import `import * as validators from 'some-validation-package'` depending on the nature of the validations.
 
-A validation function must return `true` if a string is validated. Any other result is treated as indicating the string is invalid according to that validator. it is recommended to return a string, as the core validators do, that provides an explanation for why the string failed to validate.
+A validation function must return `true` if a string is validated. Any other result should be treated as indicating the string is invalid according to that validator. It is recommended to return a string, as the core validators do, that provides an explanation for why the string failed to validate.
