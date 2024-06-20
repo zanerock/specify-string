@@ -1,6 +1,6 @@
 {
   "name": "specify-string",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple string validation library that can be easily extended with other libraries.",
   "main": "dist/specify-string.js",
   "scripts": {
