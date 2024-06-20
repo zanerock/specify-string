@@ -1,1 +1,1 @@
-export * from 'specify-string'
+export * from './specify-string'

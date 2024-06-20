@@ -1,4 +1,5 @@
-import validator from 'validator'
+// not sure why eslint is complaining here; there is clearly a default export
+import validators from 'validator' // eslint-disable-line  node/no-unpublished-import
 
 import { Validator, validateString, validateStringSpec } from '../specify-string'
 
@@ -17,7 +18,7 @@ describe('validateStringSpec', () => {
   test('raises exception on invalid validation', () => {
     const spec = { 'bad-validation' : 'ignored' }
     expect(() => validateStringSpec({ spec })).toThrow(/^No such validation/)
-    expect(() => validateStringSpec({ spec, validators: { foo: () => true }})).toThrow(/^No such validation.+or supplied validators/)
+    expect(() => validateStringSpec({ spec, validators : { foo : () => true } })).toThrow(/^No such validation.+or supplied validators/)
   })
 })
 
@@ -63,14 +64,14 @@ describe('validateString', () => {
     expect(() => validateString({ spec : { 'match-re' : '(a' }, value : 'foo' })).toThrow(/^'match-re' RE/))
 
   test('will use auxiliary validators', () =>
-    expect(validateString({ spec : { isEmail : undefined }, validators: validator, value: 'foo@bar.com' })).toBe(true))
+    expect(validateString({ spec : { isEmail : undefined }, validators, value : 'foo@bar.com' })).toBe(true))
 
   test('will pass single argument to auxiliary validators', () =>
-    expect(validateString({ spec : { isEmail : { allow_display_name: true } }, validators: validator, value: 'Foo <foo@bar.com>' })).toBe(true))
+    expect(validateString({ spec : { isEmail : { allow_display_name : true } }, validators, value : 'Foo <foo@bar.com>' })).toBe(true))
 
   test('will pass multiple arguments to the auxiliary validators', () => {
     let arg1, arg2, arg3
-    validateString({ spec : { argTest : ['foo', 'bar'] }, validators: { argTest : (a, b, c) => { arg1 = a; arg2 = b; arg3 = c; return true }}, value: 'baz' })
+    validateString({ spec : { argTest : ['foo', 'bar'] }, validators : { argTest : (a, b, c) => { arg1 = a; arg2 = b; arg3 = c; return true } }, value : 'baz' })
     expect(arg1).toBe('baz')
     expect(arg2).toBe('foo')
     expect(arg3).toBe('bar')
@@ -80,13 +81,13 @@ describe('validateString', () => {
     expect(() => validateString({ value : 'foo' })).toThrow(/^Validation 'spec'/))
 
   test("throws an exception if 'value' is undefined", () =>
-    expect(() => validateString({ spec : { 'min-length': 1 }})).toThrow(/^Validation 'value'/))
+    expect(() => validateString({ spec : { 'min-length' : 1 } })).toThrow(/^Validation 'value'/))
 
   test("throws an exception if single 'value' is not a string", () =>
-    expect(() => validateString({ spec: { 'min-length': 1 }, value: 23 })).toThrow(/must be a string/))
+    expect(() => validateString({ spec : { 'min-length' : 1 }, value : 23 })).toThrow(/must be a string/))
 
   test("throws an exception if array 'value' contains a non-string", () =>
-    expect(() => validateString({ spec: { 'min-length': 1 }, value: [ 'foo', 23 ] })).toThrow(/must be a string/))
+    expect(() => validateString({ spec : { 'min-length' : 1 }, value : ['foo', 23] })).toThrow(/must be a string/))
 })
 
 describe('Validator', () => {

@@ -1,9 +1,9 @@
 const coreMultiValidators = {
-  'min-count' : (value, length) => Array.isArray(value) && value.length >= length ||
+  'min-count' : (value, length) => (Array.isArray(value) && value.length >= length) ||
     `You must provide no more than ${length} values; found ${value.length} values.`,
-  'max-count' : (value, length) => Array.isArray(value) && value.length <= length ||
+  'max-count' : (value, length) => (Array.isArray(value) && value.length <= length) ||
     `You must provide at least ${length} values; found ${value.length} values.`,
-  'exact-count' : (value, length) => Array.isArray(value) && value.length === length ||
+  'exact-count' : (value, length) => (Array.isArray(value) && value.length === length) ||
     `You must provide exactly ${length} values; found ${value.length} values.`
 }
 
