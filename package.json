@@ -1,10 +1,16 @@
 {
   "name": "specify-string",
   "version": "1.0.0-alpha.0",
-  "description": "",
+  "description": "A simple string validation library that can be easily extended with other libraries.",
   "main": "dist/specify-string.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "make",
+    "lint": "make lint",
+    "lint:fix": "make lint-fix",
+    "test": "make test",
+    "prepack": "make build",
+    "preversion": "npm test && make lint",
+    "qa": "make qa"
   },
   "keywords": [],
   "author": "Zane Rockenbaugh <zane@liquid-labs.com>",
@@ -13,5 +19,14 @@
   "bugs": {
     "url": "https://github.com/liquid-labs/specify-string/issues"
   },
-  "homepage": "https://github.com/liquid-labs/specify-string#readme"
+  "homepage": "https://github.com/liquid-labs/specify-string#readme",
+  "devDependencies": {
+    "@liquid-labs/sdlc-resource-babel-and-rollup": "^1.0.0-alpha.8",
+    "@liquid-labs/sdlc-resource-eslint": "^1.0.0-alpha.11",
+    "@liquid-labs/sdlc-resource-jest": "^1.0.0-alpha.7",
+    "validator": "^13.12.0"
+  },
+  "_comply": {
+    "orgKey": "@liquid-labs"
+  }
 }
