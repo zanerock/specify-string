@@ -17,6 +17,7 @@ describe('validateStringSpec', () => {
   test('raises exception on invalid validation', () => {
     const spec = { 'bad-validation' : 'ignored' }
     expect(() => validateStringSpec({ spec })).toThrow(/^No such validation/)
+    expect(() => validateStringSpec({ spec, validators: { foo: () => true }})).toThrow(/^No such validation.+or supplied validators/)
   })
 })
 
@@ -75,12 +76,26 @@ describe('validateString', () => {
     expect(arg3).toBe('bar')
   })
 
-  test("'Validator' can validate strings", () => {
+  test("throws an exception if 'spec' is undefined", () =>
+    expect(() => validateString({ value : 'foo' })).toThrow(/^Validation 'spec'/))
+
+  test("throws an exception if 'value' is undefined", () =>
+    expect(() => validateString({ spec : { 'min-length': 1 }})).toThrow(/^Validation 'value'/))
+
+  test("throws an exception if single 'value' is not a string", () =>
+    expect(() => validateString({ spec: { 'min-length': 1 }, value: 23 })).toThrow(/must be a string/))
+
+  test("throws an exception if array 'value' contains a non-string", () =>
+    expect(() => validateString({ spec: { 'min-length': 1 }, value: [ 'foo', 23 ] })).toThrow(/must be a string/))
+})
+
+describe('Validator', () => {
+  test('can validate strings', () => {
     const validator = new Validator({ spec : { 'min-length' : 3 } })
     expect(validator.validateString('bye')).toBe(true)
     expect(typeof validator.validateString('hi')).toBe('string')
   })
 
-  test("'Validator' detects invalid spec on instantiation", () =>
+  test('detects invalid spec on instantiation', () =>
     expect(() => new Validator({ spec : { foo : 1 } })).toThrow(/^No such validation/))
 })

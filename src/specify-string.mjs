@@ -47,12 +47,15 @@ const Validator = class {
   }
 }
 
-const validateString = ({ spec, validators, value }) => {
+const validateString = ({ skipTypeCheck, spec, validators, value }) => {
+  if (spec === undefined) {
+    throw new Error("Validation 'spec' is not defined.")
+  }
   if (value === undefined) {
     throw new Error("Validation 'value' is not defined.")
   }
   const values = Array.isArray(value) ? value : [value]
-  if (values.some((v) => typeof v !== 'string')) {
+  if (skipTypeCheck !== true && values.some((v) => typeof v !== 'string')) {
     throw new Error(`Validation 'value' must be a string or an array of strings; got: '${values.join("', '")}'.`)
   }
 
