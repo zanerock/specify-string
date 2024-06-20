@@ -77,7 +77,11 @@ const validateString = ({ skipTypeCheck, spec, validators, value }) => {
             ? validationFunc(v, ...parameters)
             : validationFunc(v, parameters)
         if (result !== true) {
-          return result
+          if (typeof result !== 'string') {
+            return `The value '${v}' failed the '${validation}' validation.`
+          } else { // we've got a string; assume it's a description of the problem and just return it
+            return result
+          }
         }
       }
     }
