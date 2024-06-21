@@ -36,8 +36,10 @@ const result = validateString({
   value      : email
 })
 // returns true
-// email = 'john@foo.com' would return explaining the string must match the RE
-// email = 'invalid@email@acme.com' would return 'false' because that's what 'isEmail' returns.
+// value = 'john@foo.com' would fail our core 'match-re' test and return:
+// "Value must match /@acme.com/; got 'john@foo.com'.
+// value = 'invalid@email@acme.com' would fail the 3rd party 'isEmail' test and return:
+// "The value 'invalid@email@acme.com' failed the 'isEmail' validation."
 ```
 
 ## API reference
