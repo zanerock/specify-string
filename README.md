@@ -125,7 +125,7 @@ String validators are run against the single string `value` or, if `value` is an
 
 - `exact-length`: Takes an integer length value and requires each `value` string to be exactly the specified length.
 - `max-length`: Takes an integer length value and requires each `value` string to be at most the specified length.
-- `match-re`: Takes a regular expression or a string which will be used to create a regular expression. Each `value` must match the specified regular expression. An exception will be raised if the value is a string that is not a valid regular expression.
+- `match-re`: Takes a regular expression (native RegExp or alternate such as [regex](https://www.npmjs.com/package/regex)) or a string which will be used to create a regular expression. Each `value` must match the specified regular expression. An exception will be raised if the value is a string that is not a valid regular expression.
 - `min-length`: Takes an integer length value and requires each `value` string to be at least the specified length.
 - `one-of`: Takes an array of valid strings and requires each `value` string to be one of the valid strings.
 
