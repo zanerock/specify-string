@@ -24,7 +24,7 @@ import isEmail from 'validator/es/lib/isEmail'
 import { validateString } from 'specify-string'
 
 const emailSpec = {
-  'match-re': /@acme.com/, // a core validation
+  'match-re': /@acme.com$/, // a core validation
   isEmail: undefined // validation from the validator package 
 }
 
@@ -87,27 +87,58 @@ Validates the `value` against the `spec` used to create the `Validator` instance
 
 ## Validation spec
 
-The validation spec consists of an object whose keys are references to a validator function. The values are arguments to pass to the validation spec and may be undefined.
+The validation spec consists of an object whose keys are references to a validator function. The values are:
+1. an array of arguments which will be passed to the validator as the 2nd, 3rd, etc. arguments,
+2. a single value which will be passed to the validator as the 2nd argument, or
+3. an object with an `args` field whose value will be passed to the validator according to rules 1 and 2.
 
 Specifically, given a validation spec like:
 ```javascript
 {
-  'min-length': 5
+  'min-length' : 5
 }
 ```
 
 The validator function will be called like: `validationFunc(value, 5)` where `value` is the parameter passed to the `validateString` function.
 
-It is possible to pass in multiple arguments using an array. For example:
+It is possible to pass in multiple arguments using an array. These arguments are spread in the validator call. For example:
 ```javascript
 {
-  'someValidation': [10, { strict: true }]
+  someValidation : [10, { strict: true }]
 }
 ```
 
 Would result in a call like: `someValidation(value, 10, { strict: true })`.
 
 The exception to this rule is the `one-of` core validator, which takes an array as an argument, which is passed into the validator as an array of valid options.
+
+<span id="array-example"></span>
+To pass a literal array as the single non-value argument, you can enclose the array in an array. E.g.:
+```javascript
+{
+  arrayArgValidation : [['inner', 'array']]
+}
+```
+
+Would result in a call like: `arrayArgValidation(value, ['inner', 'array'])`.
+
+Note that `{ validationKey: 1 }` and `{validationKey: { args: 1 }}` are functionally equivalent as far as validation goes. The primary purpose of the second form is to allow for a validation description. E.g.:
+```javascript
+{
+  'matche-re': {
+    args : /really complicated regular expression to match emails/,
+    description: 'as email'
+  }
+}
+```
+These are designed to work with [`command-line-documentation`](https://github.com/liquid-labs.com/command-line-validation). When documenting the validations, the above would be rendered like "'match-re': as email".
+
+If you have to pass in an object with `args` field as an argument to the validator, you would need to either enclose the object in an array as in [the example above](#array-example) or enclose within an `arg` field like:
+```javascript
+{
+  args: { args: 'inner args' }
+}
+```
 
 ## Core validations
 
