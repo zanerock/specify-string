@@ -26,6 +26,7 @@ describe('validateString', () => {
   test.each([
     [{ 'min-count' : 1 }, ['hi']],
     [{ 'min-count' : 1 }, 'hi'],
+    [{ 'min-count' : { args : 1 } }, 'hi'],
     [{ 'max-count' : 1 }, ['hi']],
     [{ 'max-count' : 1 }, 'hi'],
     [{ 'exact-count' : 1 }, ['hi']],
