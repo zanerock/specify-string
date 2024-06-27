@@ -1,3 +1,5 @@
+import { extractArgs } from './lib/extract-args'
+
 const coreMultiValidators = {
   'min-count' : (value, length) => (Array.isArray(value) && value.length >= length) ||
     `You must provide no more than ${length} values; found ${value.length} values.`,
@@ -60,10 +62,12 @@ const validateString = ({ skipTypeCheck, spec, validators, value }) => {
   }
 
   for (const [validation, parameters] of Object.entries(spec)) {
+    const args = extractArgs(parameters)
+
     if (coreMultiValidators[validation]) {
       const validationFunc = coreMultiValidators[validation]
 
-      const result = validationFunc(values, parameters)
+      const result = validationFunc(values, args)
 
       if (result !== true) {
         return result
@@ -72,10 +76,10 @@ const validateString = ({ skipTypeCheck, spec, validators, value }) => {
       const validationFunc = coreValidators[validation] || validators[validation]
       for (const v of values) {
         const result = validation === 'one-of'
-          ? validationFunc(v, parameters)
-          : Array.isArray(parameters)
-            ? validationFunc(v, ...parameters)
-            : validationFunc(v, parameters)
+          ? validationFunc(v, args)
+          : Array.isArray(args)
+            ? validationFunc(v, ...args)
+            : validationFunc(v, args)
         if (result !== true) {
           if (typeof result !== 'string') {
             return `The value '${v}' failed the '${validation}' validation.`
