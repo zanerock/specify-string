@@ -17,17 +17,19 @@ const coreValidators = {
     `Value must be at most ${length} characters long; found ${value.length} characters.`,
   'exact-length' : (value, length) => value.length === length ||
     `Value must be exactly ${length} characters long; found ${value.length} characters.`,
-  'after' : (value, after) => { const sorted = [value, after].sort(); return (value !== after && sorted[1] === value) 
-    || `Value must be lexicographically after '${after}'.` },
-  'before' : (value, before) => { 
-    const sorted = [before, value].sort()
-    return (value !== before && sorted[0] === value)
-      || `Value must be lexicographically before '${before}'.`
+  after : (value, after) => {
+    const sorted = [value, after].sort(); return (value !== after && sorted[1] === value) ||
+    `Value must be lexicographically after '${after}'.`
   },
-  'between' : (value, before, after) => {
+  before : (value, before) => {
+    const sorted = [before, value].sort()
+    return (value !== before && sorted[0] === value) ||
+      `Value must be lexicographically before '${before}'.`
+  },
+  between : (value, before, after) => {
     const sorted = [before, value, after].sort()
-    return (value !== before && value !== after && sorted[1] === value)
-      || `Value must be lexicographically between '${before}' and '${after}'.`
+    return (value !== before && value !== after && sorted[1] === value) ||
+      `Value must be lexicographically between '${before}' and '${after}'.`
   },
   'one-of' : (value, options) => {
     if ((typeof options) === 'string') {
