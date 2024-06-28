@@ -35,6 +35,9 @@ describe('validateString', () => {
     [{ 'min-length' : 1 }, ['hi', 'bye']],
     [{ 'max-length' : 2 }, 'hi'],
     [{ 'exact-length' : 2 }, 'hi'],
+    [{ before : 'foo' }, 'bar'],
+    [{ after : 'bar' }, 'foo'],
+    [{ between : ['bar', 'foo'] }, 'baz'],
     [{ 'one-of' : ['hi', 'bye'] }, 'hi'],
     [{ 'match-re' : 'foo' }, 'foo-bar'],
     [{ 'match-re' : /foo/ }, 'foo-bar']
@@ -51,6 +54,9 @@ describe('validateString', () => {
     [{ 'min-length' : 3 }, ['hi', 'bye']],
     [{ 'max-length' : 1 }, 'hi'],
     [{ 'exact-length' : 3 }, 'hi'],
+    [{ before : 'bar' }, 'foo'],
+    [{ after : 'foo' }, 'bar'],
+    [{ between : ['baz', 'foo'] }, 'bar'],
     [{ 'one-of' : ['hi', 'bye'] }, 'foo'],
     [{ 'match-re' : 'foo$' }, 'foo-bar'],
     [{ 'match-re' : /foo$/ }, 'foo-bar']
