@@ -2,7 +2,7 @@
 
 # specify-string
 
-A simple string validation library that can be easily extended with other libraries.
+A simple string specification and validation library that can be easily extended with other libraries.
 
 - [Installation](#installation)
 - [Usage](#usage)
@@ -154,10 +154,13 @@ There are three array validators. These are useful when `value` is an array of s
 
 String validators are run against the single string `value` or, if `value` is an array of strings, each string in the `value` array. Recall that validation will cease at the first failure.
 
-- `exact-length`: Takes an integer length value and requires each `value` string to be exactly the specified length.
-- `max-length`: Takes an integer length value and requires each `value` string to be at most the specified length.
-- `match-re`: Takes a regular expression (native RegExp or alternate such as [regex](https://www.npmjs.com/package/regex)) or a string which will be used to create a regular expression. Each `value` must match the specified regular expression. An exception will be raised if the value is a string that is not a valid regular expression.
 - `min-length`: Takes an integer length value and requires each `value` string to be at least the specified length.
+- `max-length`: Takes an integer length value and requires each `value` string to be at most the specified length.
+- `exact-length`: Takes an integer length value and requires each `value` string to be exactly the specified length.
+- `before`: Takes a string value and requires `value` to be lexicographically before the specified string.
+- `after`: Takes a string value and requires `value` to be lexicographically after the specified string.
+- `between`: Takes an array of two string values and requires `value` to be lexicographically between the specified strings.
+- `match-re`: Takes a regular expression (native RegExp or alternate such as [regex](https://www.npmjs.com/package/regex)) or a string which will be used to create a regular expression. Each `value` must match the specified regular expression. An exception will be raised if the value is a string that is not a valid regular expression.
 - `one-of`: Takes an array of valid strings and requires each `value` string to be one of the valid strings.
 
 ## Extending validations
