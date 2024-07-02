@@ -1,0 +1,68 @@
+Test git rev: 0c6e0e6cf40d845edf916436bc1682c761d62d76
+PASS test/specify-string.test.js
+  validateStringSpec
+    ✓ passes valid core validations (2 ms)
+    ✓ passes auxiliary validations
+    ✓ raises exception on invalid validation (11 ms)
+  validateString
+    ✓ passes valid { 'min-count': 1 } with value ["hi"] (1 ms)
+    ✓ passes valid { 'min-count': 1 } with value "hi"
+    ✓ passes valid { 'min-count': [Object] } with value "hi"
+    ✓ passes valid { 'max-count': 1 } with value ["hi"]
+    ✓ passes valid { 'max-count': 1 } with value "hi"
+    ✓ passes valid { 'exact-count': 1 } with value ["hi"]
+    ✓ passes valid { 'exact-count': 1 } with value "hi"
+    ✓ passes valid { 'min-length': 1 } with value "hi"
+    ✓ passes valid { 'min-length': 1 } with value ["hi", "bye"] (1 ms)
+    ✓ passes valid { 'max-length': 2 } with value "hi"
+    ✓ passes valid { 'exact-length': 2 } with value "hi"
+    ✓ passes valid { before: 'foo' } with value "bar"
+    ✓ passes valid { after: 'bar' } with value "foo"
+    ✓ passes valid { between: [Array] } with value "baz"
+    ✓ passes valid { 'one-of': [Array] } with value "hi"
+    ✓ passes valid { 'match-re': 'foo' } with value "foo-bar"
+    ✓ passes valid { 'match-re': /foo/ } with value "foo-bar" (1 ms)
+    ✓ fails invalid { 'min-count': 3 } with value ["hi"]
+    ✓ fails invalid { 'min-count': 3 } with value "hi"
+    ✓ fails invalid { 'max-count': 1 } with value ["hi", "bye"]
+    ✓ fails invalid { 'max-count': 0 } with value "hi"
+    ✓ fails invalid { 'exact-count': 2 } with value ["hi"]
+    ✓ fails invalid { 'exact-count': 2 } with value "hi"
+    ✓ fails invalid { 'min-length': 3 } with value "hi"
+    ✓ fails invalid { 'min-length': 3 } with value ["hi", "bye"]
+    ✓ fails invalid { 'max-length': 1 } with value "hi"
+    ✓ fails invalid { 'exact-length': 3 } with value "hi" (1 ms)
+    ✓ fails invalid { before: 'bar' } with value "foo"
+    ✓ fails invalid { after: 'foo' } with value "bar"
+    ✓ fails invalid { between: [Array] } with value "bar"
+    ✓ fails invalid { 'one-of': [Array] } with value "foo"
+    ✓ fails invalid { 'match-re': 'foo$' } with value "foo-bar"
+    ✓ fails invalid { 'match-re': /foo$/ } with value "foo-bar"
+    ✓ 'one-of' test works with (string) comma separated list
+    ✓ 'match-re' throws an exception when given an invalid RE (1 ms)
+    ✓ will use auxiliary validators (1 ms)
+    ✓ will pass single argument to auxiliary validators
+    ✓ will convert auxiliary validator failure results to a string description
+    ✓ will pass multiple arguments to the auxiliary validators
+    ✓ throws an exception if 'spec' is undefined
+    ✓ throws an exception if 'value' is undefined
+    ✓ throws an exception if single 'value' is not a string
+    ✓ throws an exception if array 'value' contains a non-string
+  Validator
+    ✓ can validate strings
+    ✓ detects invalid spec on instantiation
+
+---------------------|---------|----------|---------|---------|-------------------
+File                 | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+---------------------|---------|----------|---------|---------|-------------------
+All files            |     100 |    89.74 |     100 |     100 |                   
+ src                 |     100 |    88.88 |     100 |     100 |                   
+  specify-string.mjs |     100 |    88.88 |     100 |     100 | 1                 
+ src/lib             |     100 |      100 |     100 |     100 |                   
+  extract-args.mjs   |     100 |      100 |     100 |     100 |                   
+---------------------|---------|----------|---------|---------|-------------------
+Test Suites: 1 passed, 1 total
+Tests:       48 passed, 48 total
+Snapshots:   0 total
+Time:        0.207 s, estimated 1 s
+Ran all test suites.
