@@ -113,7 +113,7 @@ Would result in a call like: `someValidation(value, 10, { strict: true })`.
 The exception to this rule is the `one-of` core validator, which takes an array as an argument, which is passed into the validator as an array of valid options.
 
 <span id="array-example"></span>
-To pass a literal array as the single non-value argument, you can enclose the array in an array. E.g.:
+To pass a single literal array (for [extended validations](#extending-validations)), you can enclose the array in an array. E.g.:
 ```javascript
 {
   arrayArgValidation : [['inner', 'array']]
